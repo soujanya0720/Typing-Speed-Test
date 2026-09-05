@@ -1,0 +1,855 @@
+/* =====================================================
+   MEMORY MATCH
+   Professional Memory Card Game
+   ===================================================== */
+
+
+/* ================= RESET ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    font-family: "Inter", sans-serif;
+
+    color: #ffffff;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #24305a 0%,
+            #111629 35%,
+            #080b15 75%
+        );
+
+    line-height: 1.5;
+}
+
+
+/* ================= HEADER ================= */
+
+.header {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    background: rgba(8, 11, 21, 0.85);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.navbar {
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding: 18px 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+
+.logo {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.logo span {
+    font-size: 27px;
+}
+
+
+.logo h1 {
+    font-size: 20px;
+
+    font-weight: 800;
+}
+
+
+.logo h1 span {
+    color: #7c83fd;
+
+    font-size: inherit;
+}
+
+
+.restart-small {
+    padding: 9px 15px;
+
+    border: 1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.restart-small:hover {
+    background: #7c83fd;
+
+    border-color: #7c83fd;
+}
+
+
+/* ================= MAIN ================= */
+
+.main {
+    max-width: 1050px;
+
+    margin: auto;
+
+    padding: 70px 25px;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+
+.badge {
+    display: inline-block;
+
+    padding: 7px 14px;
+
+    border-radius: 30px;
+
+    background: rgba(124, 131, 253, 0.12);
+
+    border:
+        1px solid rgba(124, 131, 253, 0.3);
+
+    color: #a9adff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 18px;
+}
+
+
+.hero h2 {
+    font-size: clamp(40px, 7vw, 64px);
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 18px;
+}
+
+
+.hero h2 span {
+    color: #7c83fd;
+}
+
+
+.hero p {
+    max-width: 620px;
+
+    margin: auto;
+
+    color: #9ca1b3;
+
+    font-size: 15px;
+}
+
+
+/* ================= STATS ================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+}
+
+
+.stat-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 17px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.045);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.stat-icon {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: rgba(124, 131, 253, 0.12);
+
+    font-size: 19px;
+}
+
+
+.stat-card span {
+    display: block;
+
+    color: #73798b;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
+
+    font-weight: 700;
+
+    margin-bottom: 2px;
+}
+
+
+.stat-card strong {
+    font-size: 17px;
+
+    color: #f4f5fa;
+}
+
+
+/* ================= GAME SECTION ================= */
+
+.game-section {
+    display: flex;
+
+    justify-content: center;
+}
+
+
+.game-board {
+    width: min(650px, 100%);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+
+    perspective: 1000px;
+}
+
+
+/* ================= CARD ================= */
+
+.card {
+    aspect-ratio: 1 / 1;
+
+    position: relative;
+
+    cursor: pointer;
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.55s ease;
+
+    user-select: none;
+}
+
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+
+.card.matched {
+    transform: rotateY(180deg);
+
+    cursor: default;
+}
+
+
+.card-face {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 13px;
+
+    backface-visibility: hidden;
+
+    -webkit-backface-visibility: hidden;
+}
+
+
+/* CARD BACK */
+
+.card-front {
+    background:
+        linear-gradient(
+            145deg,
+            #262d5a,
+            #171c3a
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+
+.card-front::before {
+    content: "✦";
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(124, 131, 253, 0.12);
+
+    border:
+        1px solid rgba(124, 131, 253, 0.3);
+
+    color: #8d93ff;
+
+    font-size: 20px;
+}
+
+
+.card:hover:not(.flipped):not(.matched)
+.card-front {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(124, 131, 253, 0.5);
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.35);
+}
+
+
+/* CARD SYMBOL */
+
+.card-back {
+    transform: rotateY(180deg);
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #eef0ff
+        );
+
+    color: #222;
+
+    border:
+        2px solid rgba(255, 255, 255, 0.5);
+
+    font-size: clamp(28px, 5vw, 42px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+.card.matched .card-back {
+    box-shadow:
+        0 0 0 2px #7c83fd,
+        0 10px 30px rgba(124, 131, 253, 0.25);
+}
+
+
+/* ================= CONTROLS ================= */
+
+.controls {
+    text-align: center;
+
+    margin: 30px 0 50px;
+}
+
+
+.restart-btn {
+    border: none;
+
+    padding: 13px 25px;
+
+    border-radius: 9px;
+
+    background: #7c83fd;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.restart-btn:hover {
+    background: #9298ff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(124, 131, 253, 0.25);
+}
+
+
+/* ================= INSTRUCTIONS ================= */
+
+.instructions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+
+.instruction-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 18px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 12px;
+}
+
+
+.instruction-card > span {
+    width: 34px;
+
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(124, 131, 253, 0.13);
+
+    color: #9ca1ff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.instruction-card h3 {
+    font-size: 13px;
+
+    margin-bottom: 3px;
+}
+
+
+.instruction-card p {
+    color: #777d8e;
+
+    font-size: 11px;
+}
+
+
+/* ================= MODAL ================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+
+.modal-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    backdrop-filter: blur(8px);
+}
+
+
+.win-card {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 400px;
+
+    padding: 40px 30px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #1d2342,
+            #11152a
+        );
+
+    border:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5);
+
+    animation: modalIn 0.4s ease;
+}
+
+
+@keyframes modalIn {
+
+    from {
+        opacity: 0;
+
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: scale(1);
+    }
+
+}
+
+
+.win-icon {
+    font-size: 60px;
+
+    margin-bottom: 15px;
+
+    animation:
+        bounce 1s infinite alternate;
+}
+
+
+@keyframes bounce {
+
+    to {
+        transform: translateY(-8px);
+    }
+
+}
+
+
+.win-card h2 {
+    font-size: 28px;
+
+    margin-bottom: 7px;
+}
+
+
+.win-card > p {
+    color: #9298aa;
+
+    font-size: 13px;
+}
+
+
+.final-stats {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin: 25px 0;
+}
+
+
+.final-stats div {
+    padding: 15px;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    border-radius: 10px;
+}
+
+
+.final-stats span {
+    display: block;
+
+    color: #747a8c;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 4px;
+}
+
+
+.final-stats strong {
+    font-size: 20px;
+}
+
+
+.new-record {
+    color: #ffd166 !important;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+
+#playAgainBtn {
+    width: 100%;
+
+    border: none;
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    background: #7c83fd;
+
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer {
+    text-align: center;
+
+    padding: 35px 20px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.06);
+
+    background: rgba(0, 0, 0, 0.15);
+}
+
+
+.footer p {
+    font-size: 15px;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+
+.footer span {
+    color: #626879;
+
+    font-size: 11px;
+}
+
+
+/* ================= UTILITY ================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 800px) {
+
+    .stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .instructions {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .main {
+        padding: 50px 15px;
+    }
+
+
+    .hero h2 {
+        font-size: 42px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .hero p {
+        font-size: 13px;
+    }
+
+
+    .game-board {
+        gap: 9px;
+    }
+
+
+    .card-face {
+        border-radius: 9px;
+    }
+
+
+    .card-front::before {
+        width: 32px;
+
+        height: 32px;
+
+        font-size: 15px;
+    }
+
+
+    .stats {
+        gap: 9px;
+    }
+
+
+    .stat-card {
+        padding: 12px;
+
+        gap: 9px;
+    }
+
+
+    .stat-icon {
+        width: 35px;
+
+        height: 35px;
+
+        font-size: 15px;
+    }
+
+
+    .stat-card strong {
+        font-size: 14px;
+    }
+
+
+    .restart-small {
+        font-size: 11px;
+
+        padding: 8px 11px;
+    }
+
+}
+
+
+@media (max-width: 380px) {
+
+    .game-board {
+        gap: 7px;
+    }
+
+
+    .hero h2 {
+        font-size: 36px;
+    }
+
+}
