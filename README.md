@@ -1,4 +1,4 @@
-# ⌨️ TypeMaster - Typing Speed Test
+#  TypeMaster - Typing Speed Test
 
 TypeMaster is a professional and responsive typing speed test built using **HTML, CSS and JavaScript**.
 
@@ -6,25 +6,25 @@ The application allows users to test their typing speed, accuracy and mistakes w
 
 ---
 
-## ✨ Features
+##  Features
 
-- ⏱️ 60-second typing test
-- ⚡ Words Per Minute (WPM) calculation
-- 🎯 Accuracy calculation
-- ❌ Mistake tracking
-- 📊 Typing progress bar
-- 📝 Random typing passages
-- 🏆 Personal best WPM
-- 💾 LocalStorage support
-- 🔄 Restart test functionality
-- 🎉 Result screen
-- 📱 Responsive design
-- 🎨 Professional dark UI
-- ⌨️ Real-time typing feedback
+-  60-second typing test
+-  Words Per Minute (WPM) calculation
+-  Accuracy calculation
+-  Mistake tracking
+-  Typing progress bar
+-  Random typing passages
+-  Personal best WPM
+-  LocalStorage support
+-  Restart test functionality
+-  Result screen
+-  Responsive design
+-  Professional dark UI
+-  Real-time typing feedback
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - HTML5
 - CSS3
@@ -35,7 +35,7 @@ The application allows users to test their typing speed, accuracy and mistakes w
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 Typing-Speed-Test/
